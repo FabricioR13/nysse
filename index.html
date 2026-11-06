@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nysse Cabeleireiros · Agende seu horário</title>
+<meta name="description" content="Mechas, coloração, corte, alisamento, terapia capilar e unhas em Gravataí. Escolha o serviço, veja os horários livres e agende pelo celular.">
+<meta name="theme-color" content="#1E1A16">
+
+<!-- Prévia do link no WhatsApp (ajuste o endereço quando publicar) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nysse Cabeleireiros · Agende seu horário">
+<meta property="og:description" content="Mechas, coloração, corte, alisamento, terapia capilar e unhas. Veja os horários livres e agende pelo celular.">
+<meta property="og:image" content="https://fabricior13.github.io/nysse/img/og-nysse.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://fabricior13.github.io/nysse/">
+<link rel="icon" href="img/icon-192.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --creme:#FAF6EF; --creme2:#F3EBDD; --areia:#E8DCC6;
+  --ouro:#B8914A; --ouro-claro:#D9B77A; --ouro-escuro:#8C6B3A;
+  --preto:#1E1A16; --texto:#2E2822; --suave:#76695A;
+  --verde:#1FA855; --branco:#fff;
+  --raio:18px; --sombra:0 10px 30px -12px rgba(60,40,10,.25);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito Sans',system-ui,sans-serif;background:var(--creme);color:var(--texto);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.serif{font-family:'Cormorant Garamond',Georgia,serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+
+/* topo */
+.topo{position:sticky;top:0;z-index:30;background:rgba(250,246,239,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(184,145,74,.18)}
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--preto)}
+.marca img{width:42px;height:42px;border-radius:50%}
+.marca b{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;letter-spacing:.5px}
+.btn-whats-topo{display:flex;align-items:center;gap:8px;background:var(--verde);color:#fff;padding:9px 14px;border-radius:999px;font-weight:700;font-size:15px;text-decoration:none}
+.btn-whats-topo svg{width:18px;height:18px}
+
+/* hero */
+.hero{padding:34px 0 18px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-40% -20% auto;height:420px;background:radial-gradient(closest-side,rgba(217,183,122,.35),transparent);pointer-events:none}
+.hero .logo{width:132px;height:132px;border-radius:50%;margin:0 auto 14px;box-shadow:0 0 0 6px #fff,0 0 0 7px var(--ouro-claro),var(--sombra);position:relative}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,8vw,54px);line-height:1.05;color:var(--preto);font-weight:600;position:relative}
+.hero h1 em{color:var(--ouro);font-style:italic}
+.hero p.sub{color:var(--suave);margin:12px auto 22px;max-width:30ch;position:relative}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 28px;border-radius:999px;font-weight:800;font-size:17px;text-decoration:none;transition:transform .15s,box-shadow .15s}
+.btn:active{transform:scale(.97)}
+.btn-ouro{background:linear-gradient(135deg,var(--ouro-claro),var(--ouro) 55%,var(--ouro-escuro));color:#fff;box-shadow:0 10px 24px -10px rgba(140,107,58,.8)}
+.btn-escuro{background:var(--preto);color:#fff}
+.btn-verde{background:var(--verde);color:#fff;box-shadow:0 10px 24px -10px rgba(31,168,85,.7)}
+.btn-linha{border:2px solid var(--ouro);color:var(--ouro-escuro);background:#fff}
+.selos{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:18px;position:relative}
+.selo{background:#fff;border:1px solid var(--areia);padding:6px 12px;border-radius:999px;font-size:13.5px;color:var(--suave);font-weight:600}
+.faixa-fotos{display:flex;gap:10px;margin-top:26px;overflow:hidden;position:relative}
+.faixa-fotos img{flex:1;min-width:0;height:170px;object-fit:cover;border-radius:14px}
+.faixa-fotos img:nth-child(2){height:190px;margin-top:-10px}
+
+/* seções */
+section{padding:34px 0}
+.titulo{text-align:center;margin-bottom:22px}
+.titulo small{display:block;color:var(--ouro);font-weight:800;letter-spacing:2px;text-transform:uppercase;font-size:12.5px;margin-bottom:6px}
+.titulo h2{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,6.5vw,42px);font-weight:600;color:var(--preto);line-height:1.1}
+.titulo p{color:var(--suave);margin-top:8px}
+
+/* serviços */
+.servicos{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:760px){.servicos{grid-template-columns:repeat(3,1fr);gap:20px}}
+.card{background:#fff;border-radius:var(--raio);overflow:hidden;box-shadow:var(--sombra);display:flex;flex-direction:column;text-align:left;transition:transform .2s;border:1px solid rgba(184,145,74,.15)}
+.card:hover{transform:translateY(-3px)}
+.card .foto{aspect-ratio:4/4.3;position:relative;overflow:hidden;background:var(--creme2)}
+.card .foto img{width:100%;height:100%;object-fit:cover}
+.card .tag-dur{position:absolute;left:10px;top:10px;background:rgba(30,26,22,.78);color:#fff;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px}
+.card .icone-fundo{width:100%;height:100%;display:grid;place-items:center;background:radial-gradient(circle at 30% 25%,#fff7e8,var(--areia));font-size:64px}
+.card .corpo{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
+.card h3{font-family:'Cormorant Garamond',serif;font-size:25px;line-height:1.1;color:var(--preto)}
+.card .preco{font-size:14px;color:var(--ouro-escuro);font-weight:700}
+.card .desc{font-size:14px;color:var(--suave);line-height:1.35;display:none}
+@media(min-width:760px){.card .desc{display:block}}
+.card .agendar{margin-top:auto;padding-top:10px}
+.card .agendar span{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;background:var(--preto);color:#fff;font-weight:800;font-size:15.5px}
+.card.produtos .agendar span{background:#fff;color:var(--ouro-escuro);border:2px solid var(--ouro)}
+
+/* como funciona */
+.passos{display:grid;gap:12px}
+@media(min-width:760px){.passos{grid-template-columns:repeat(3,1fr)}}
+.passo{display:flex;gap:14px;align-items:flex-start;background:#fff;border-radius:var(--raio);padding:16px;border:1px solid rgba(184,145,74,.18)}
+.passo .n{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--creme2);color:var(--ouro-escuro);font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700}
+.passo b{display:block;color:var(--preto)}
+.passo p{font-size:15px;color:var(--suave)}
+
+/* galeria */
+.fundo-escuro{background:var(--preto);color:#fff}
+.fundo-escuro .titulo h2{color:#fff}
+.fundo-escuro .titulo p{color:#cbbfae}
+.galeria{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 18px 8px;margin:0 -18px;scrollbar-width:none}
+.galeria::-webkit-scrollbar{display:none}
+.galeria button{flex:none;width:62%;max-width:260px;scroll-snap-align:center;border-radius:16px;overflow:hidden;position:relative}
+.galeria img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.galeria span{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.92);color:var(--preto);font-size:13px;font-weight:800;padding:4px 10px;border-radius:999px}
+.dica-arraste{text-align:center;color:#a99c88;font-size:13.5px;margin-top:10px}
+
+/* produtos */
+.produtos-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:760px){.produtos-grid{grid-template-columns:repeat(3,1fr)}}
+.produto{background:#fff;border-radius:var(--raio);padding:14px;display:flex;flex-direction:column;gap:6px;border:1px solid rgba(184,145,74,.15);box-shadow:var(--sombra)}
+.produto .ilus{height:120px;border-radius:12px;background:linear-gradient(160deg,#fff,var(--creme2));display:grid;place-items:center}
+.produto h4{font-size:16px;line-height:1.25;color:var(--preto)}
+.produto small{color:var(--suave);font-size:13px}
+.produto .valor{font-weight:800;color:var(--ouro-escuro);font-size:17px;margin-top:auto}
+.produto button{min-height:44px;border-radius:12px;background:var(--creme2);color:var(--preto);font-weight:800;font-size:15px}
+.produto button.no{background:var(--verde);color:#fff}
+.aviso-ex{font-size:13px;color:var(--suave);text-align:center;margin-top:14px}
+
+/* sobre */
+.sobre{display:grid;gap:20px;align-items:center}
+@media(min-width:760px){.sobre{grid-template-columns:1fr 1.2fr;gap:40px}}
+.sobre img{border-radius:22px;width:100%;max-height:460px;object-fit:cover;object-position:top;box-shadow:var(--sombra)}
+.sobre h2{font-family:'Cormorant Garamond',serif;font-size:38px;line-height:1.1;color:var(--preto);margin-bottom:10px}
+.sobre p{color:var(--suave);margin-bottom:10px}
+.info{display:grid;gap:10px;margin-top:16px}
+.info div{display:flex;gap:12px;align-items:flex-start;background:#fff;padding:12px 14px;border-radius:14px;border:1px solid var(--areia);font-size:15.5px}
+.info div span:first-child{font-size:20px}
+
+footer{padding:30px 0 120px;text-align:center;color:var(--suave);font-size:14px;border-top:1px solid var(--areia)}
+footer a{color:var(--ouro-escuro);font-weight:700;text-decoration:none}
+.credito{margin-top:14px;font-size:12.5px;opacity:.85}
+
+/* sacola de produtos */
+.sacola{position:fixed;left:12px;right:12px;bottom:12px;z-index:40;background:var(--preto);color:#fff;border-radius:18px;padding:12px 12px 12px 18px;display:none;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 18px 40px -12px rgba(0,0,0,.5);max-width:560px;margin:0 auto}
+.sacola.on{display:flex}
+.sacola b{display:block;font-size:16px}
+.sacola small{color:#cbbfae}
+.sacola .btn{min-height:48px;padding:0 18px;font-size:15.5px}
+
+/* agendamento (tela por cima) */
+.tela{position:fixed;inset:0;z-index:60;background:rgba(30,26,22,.55);display:none;align-items:flex-end;justify-content:center}
+.tela.on{display:flex}
+.folha{background:var(--creme);width:100%;max-width:560px;max-height:94vh;border-radius:26px 26px 0 0;overflow-y:auto;animation:sobe .28s ease}
+@media(min-width:760px){.tela{align-items:center}.folha{border-radius:26px}}
+@keyframes sobe{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.folha-topo{position:relative;height:150px;background:var(--areia)}
+.folha-topo img{width:100%;height:100%;object-fit:cover}
+.folha-topo .grad{position:absolute;inset:0;background:linear-gradient(transparent 20%,rgba(30,26,22,.85))}
+.folha-topo .nome{position:absolute;left:18px;bottom:12px;color:#fff}
+.folha-topo .nome h3{font-family:'Cormorant Garamond',serif;font-size:32px;line-height:1}
+.folha-topo .nome small{font-size:14px;opacity:.9}
+.fechar{position:absolute;right:12px;top:12px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.95);font-size:22px;color:var(--preto);display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.folha-corpo{padding:18px}
+.etapa{margin-bottom:22px}
+.etapa h4{display:flex;align-items:center;gap:10px;font-size:18px;color:var(--preto);margin-bottom:10px}
+.etapa h4 i{font-style:normal;width:28px;height:28px;border-radius:50%;background:var(--preto);color:#fff;font-size:14px;display:grid;place-items:center;flex:none}
+.etapa.travada{opacity:.4;pointer-events:none}
+.opcoes{display:flex;gap:8px;flex-wrap:wrap}
+.chip{min-height:48px;padding:0 16px;border-radius:14px;background:#fff;border:2px solid var(--areia);font-weight:700;font-size:15.5px}
+.chip small{display:block;font-weight:600;color:var(--suave);font-size:12.5px;margin-top:-2px}
+.chip.sel{border-color:var(--ouro);background:#FFF8EA;box-shadow:0 0 0 3px rgba(184,145,74,.2)}
+.dias{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.dia{flex:none;width:76px;padding:10px 4px;border-radius:16px;background:#fff;border:2px solid var(--areia);text-align:center;line-height:1.15}
+.dia .sem{font-size:13px;color:var(--suave);font-weight:700;text-transform:uppercase}
+.dia .num{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--preto)}
+.dia .mes{font-size:12.5px;color:var(--suave)}
+.dia .livres{display:block;margin-top:5px;font-size:11.5px;font-weight:800;color:var(--verde)}
+.dia.fechado,.dia.lotado{background:transparent;border-style:dashed;opacity:.55}
+.dia.fechado .livres,.dia.lotado .livres{color:var(--suave)}
+.dia.sel{border-color:var(--ouro);background:#FFF8EA;box-shadow:0 0 0 3px rgba(184,145,74,.2)}
+.horas{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(min-width:420px){.horas{grid-template-columns:repeat(4,1fr)}}
+.hora{min-height:52px;border-radius:14px;background:#fff;border:2px solid var(--areia);font-weight:800;font-size:17px;color:var(--preto)}
+.hora.res{background:repeating-linear-gradient(-45deg,#f1ebe1,#f1ebe1 6px,#ece4d6 6px,#ece4d6 12px);border-color:transparent;color:#b3a794;font-size:13px;font-weight:700;line-height:1.1;cursor:not-allowed}
+.hora.res s{display:block;font-size:15px}
+.hora.sel{background:var(--preto);border-color:var(--preto);color:#fff}
+.legenda{display:flex;gap:14px;font-size:13px;color:var(--suave);margin-top:10px}
+.legenda span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:5px;vertical-align:-1px;background:#fff;border:2px solid var(--areia)}
+.legenda span.r::before{background:#ece4d6;border-color:#ece4d6}
+.campo{display:block;margin-bottom:12px}
+.campo span{display:block;font-weight:700;font-size:15px;margin-bottom:5px}
+.campo input,.campo textarea{width:100%;min-height:52px;border-radius:14px;border:2px solid var(--areia);background:#fff;padding:12px 14px;font:inherit;font-size:17px;color:var(--texto)}
+.campo input:focus,.campo textarea:focus{outline:none;border-color:var(--ouro)}
+.resumo{background:#fff;border-radius:16px;border:1px solid var(--areia);padding:14px 16px;margin-bottom:14px;font-size:15.5px}
+.resumo div{display:flex;justify-content:space-between;gap:10px;padding:4px 0}
+.resumo div span:first-child{color:var(--suave)}
+.resumo div b{text-align:right}
+.btn-largo{width:100%}
+.vazio{padding:14px;border-radius:14px;background:#fff;color:var(--suave);text-align:center;font-size:15px}
+
+/* tela de sucesso */
+.sucesso{text-align:center;padding:26px 20px 24px}
+.sucesso .ok{width:76px;height:76px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;font-size:38px;background:#E9F7EE;color:var(--verde)}
+.sucesso h3{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--preto);line-height:1.1}
+.sucesso p{color:var(--suave);margin:8px 0 16px}
+.linha-tempo{text-align:left;display:grid;gap:10px;margin:18px 0}
+.linha-tempo div{display:flex;gap:12px;align-items:flex-start;background:#fff;border-radius:14px;padding:12px;border:1px solid var(--areia);font-size:15px}
+.linha-tempo div b{display:block;color:var(--preto)}
+.linha-tempo .n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--creme2);color:var(--ouro-escuro);font-weight:800;display:grid;place-items:center}
+.linha-tempo .feito .n{background:var(--verde);color:#fff}
+
+.zoom{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:20px}
+.zoom.on{display:flex}
+.zoom img{max-height:86vh;border-radius:14px}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="#inicio"><img src="img/logo.png" alt=""><b>Nysse</b></a>
+    <a class="btn-whats-topo" id="whatsTopo" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2s.2-1.1.2-1.2-.2-.2-.5-.3Z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+</header>
+
+<main id="inicio">
+  <div class="hero">
+    <div class="wrap">
+      <img class="logo" src="img/logo.png" alt="Nysse Cabeleireiros">
+      <h1>Seu momento<br>começa <em>aqui</em></h1>
+      <p class="sub">Beleza, cuidado e confiança desde 1998. Escolha o serviço e veja os horários livres.</p>
+      <a class="btn btn-ouro" href="#servicos">📅 Agendar meu horário</a>
+      <div class="selos">
+        <span class="selo">✨ Desde 1998</span>
+        <span class="selo">🏆 Tesoura de Ouro · Dubai</span>
+        <span class="selo">📍 Gravataí</span>
+      </div>
+      <div class="faixa-fotos">
+        <img src="img/coloracao-1.jpg" alt="">
+        <img src="img/mechas-3.jpg" alt="">
+        <img src="img/loiro-1.jpg" alt="">
+      </div>
+    </div>
+  </div>
+
+  <section id="servicos">
+    <div class="wrap">
+      <div class="titulo">
+        <small>Agendamento online</small>
+        <h2>O que você quer fazer?</h2>
+        <p>Toque no serviço para ver os dias e horários livres.</p>
+      </div>
+      <div class="servicos" id="listaServicos"></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="titulo"><small>É simples</small><h2>Como funciona</h2></div>
+      <div class="passos">
+        <div class="passo"><span class="n">1</span><div><b>Escolha o serviço e o horário</b><p>Os horários já ocupados aparecem como “Reservado”.</p></div></div>
+        <div class="passo"><span class="n">2</span><div><b>A Nysse confirma pelo WhatsApp</b><p>Você recebe a confirmação e a chave Pix do sinal.</p></div></div>
+        <div class="passo"><span class="n">3</span><div><b>Mande o comprovante e pronto</b><p>Seu horário fica garantido. O sinal é descontado no dia.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fundo-escuro">
+    <div class="wrap">
+      <div class="titulo"><small>Feito aqui no salão</small><h2>Nossos trabalhos</h2><p>Mechas, loiros e transformações de verdade.</p></div>
+      <div class="galeria" id="galeria"></div>
+      <p class="dica-arraste">← arraste para ver mais →</p>
+    </div>
+  </section>
+
+  <section id="produtos">
+    <div class="wrap">
+      <div class="titulo"><small>Leve para casa</small><h2>Produtos</h2><p>Os mesmos produtos que usamos no salão. Separe e retire aqui.</p></div>
+      <div class="produtos-grid" id="listaProdutos"></div>
+      <p class="aviso-ex">Valores e produtos de demonstração — a Nysse ajusta pelo painel.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap sobre">
+      <img src="img/nysse.jpg" alt="Nysse no salão">
+      <div>
+        <div class="titulo" style="text-align:left;margin-bottom:6px"><small>Sobre nós</small></div>
+        <h2>Há mais de 25 anos cuidando de você</h2>
+        <p>A Nysse Cabeleireiros nasceu em 1998 com um propósito: fazer cada cliente sair se sentindo mais bonita e mais leve. Estética feminina e masculina, com técnica atualizada e muito carinho.</p>
+        <p>Especialista em mechas e loiros, com formação internacional na Hair School em Dubai.</p>
+        <div class="info">
+          <div><span>📍</span><span id="infoEndereco"></span></div>
+          <div><span>🕘</span><span>Terça a sexta: 9h às 19h<br>Sábado: 8h às 17h</span></div>
+          <div><span>📱</span><span>(51) 99530-9713</span></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+          <a class="btn btn-linha" id="btnMapa" target="_blank" rel="noopener">Ver no mapa</a>
+          <a class="btn btn-linha" id="btnInsta" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© Nysse Cabeleireiros · Gravataí/RS</p>
+    <p style="margin-top:6px"><a href="painel.html">Área da Nysse</a></p>
+    <p class="credito">Site desenvolvido por <a href="https://wa.me/5551982165186" target="_blank" rel="noopener">TF Solutions</a></p>
+  </div>
+</footer>
+
+<!-- sacola de produtos -->
+<div class="sacola" id="sacola">
+  <div><b id="sacolaQtd"></b><small id="sacolaTotal"></small></div>
+  <a class="btn btn-verde" id="sacolaEnviar" target="_blank" rel="noopener">Pedir no WhatsApp</a>
+</div>
+
+<!-- tela de agendamento -->
+<div class="tela" id="tela">
+  <div class="folha" id="folha"></div>
+</div>
+
+<div class="zoom" id="zoom"><img id="zoomImg" alt=""></div>
+
+<script src="dados.js"></script>
+<script>
+let D = nysseCarregar();
+const $ = s => document.querySelector(s);
+const foto = n => 'img/' + n + '.jpg';
+let sacola = {};
+
+/* ---------- vitrine ---------- */
+function montarServicos() {
+  const html = D.servicos.map(s => `
+    <button class="card" onclick="abrirAgenda('${s.id}')">
+      <div class="foto">
+        ${s.fotos.length ? `<img src="${foto(s.fotos[0])}" alt="${s.nome}" loading="lazy">` : `<div class="icone-fundo">${s.icone}</div>`}
+        <span class="tag-dur">⏱ ${duracaoTexto(s.dur)}</span>
+      </div>
+      <div class="corpo">
+        <h3>${s.nome}</h3>
+        <span class="preco">${s.preco}</span>
+        <span class="desc">${s.desc}</span>
+        <span class="agendar"><span>Ver horários</span></span>
+      </div>
+    </button>`).join('') + `
+    <a class="card produtos" href="#produtos" style="text-decoration:none;color:inherit">
+      <div class="foto"><div class="icone-fundo">🧴</div></div>
+      <div class="corpo"><h3>Produtos</h3><span class="preco">shampoo, máscara e mais</span>
+        <span class="desc">Leve para casa os produtos que usamos no salão.</span>
+        <span class="agendar"><span>Ver produtos</span></span></div>
+    </a>`;
+  $('#listaServicos').innerHTML = html;
+}
+
+function montarGaleria() {
+  const itens = [['mechas-3','Mechas'],['coloracao-1','Iluminado'],['mechas-1','Mechas'],['loiro-1','Loiro'],['alisamento-1','Alisamento'],['mechas-2','Mechas'],['coloracao-2','Morena iluminada'],['loiro-3','Loiro'],['mechas-4','Mechas'],['loiro-2','Loiro']];
+  $('#galeria').innerHTML = itens.map(([f, t]) => `<button onclick="ampliar('${f}')"><img src="${foto(f)}" alt="${t}" loading="lazy"><span>${t}</span></button>`).join('');
+}
+function ampliar(f) { $('#zoomImg').src = foto(f); $('#zoom').classList.add('on'); }
+$('#zoom').onclick = () => $('#zoom').classList.remove('on');
+
+function frasco(cor, tipo) {
+  if (tipo === 'pote') return `<svg width="86" height="96" viewBox="0 0 86 96"><rect x="10" y="22" width="66" height="66" rx="14" fill="${cor}"/><rect x="6" y="10" width="74" height="18" rx="6" fill="#1E1A16"/><rect x="20" y="44" width="46" height="24" rx="4" fill="#fff" opacity=".9"/><text x="43" y="60" text-anchor="middle" font-family="Georgia" font-size="11" fill="#8C6B3A">NYSSE</text></svg>`;
+  return `<svg width="70" height="104" viewBox="0 0 70 104"><rect x="27" y="2" width="16" height="14" rx="3" fill="#1E1A16"/><rect x="10" y="14" width="50" height="86" rx="14" fill="${cor}"/><rect x="17" y="40" width="36" height="34" rx="4" fill="#fff" opacity=".9"/><text x="35" y="61" text-anchor="middle" font-family="Georgia" font-size="10" fill="#8C6B3A">NYSSE</text></svg>`;
+}
+function montarProdutos() {
+  $('#listaProdutos').innerHTML = D.produtos.filter(p => p.ativo).map(p => `
+    <div class="produto">
+      <div class="ilus">${frasco(p.cor, /máscara|kit/i.test(p.nome) ? 'pote' : 'frasco')}</div>
+      <h4>${p.nome}</h4><small>${p.detalhe}</small>
+      <span class="valor">${dinheiro(p.preco)}</span>
+      <button id="bp_${p.id}" onclick="alternarProduto('${p.id}')">${sacola[p.id] ? '✓ Na sacola' : '+ Adicionar'}</button>
+    </div>`).join('');
+  document.querySelectorAll('.produto button').forEach(b => b.classList.toggle('no', b.textContent.includes('✓')));
+}
+function alternarProduto(id) {
+  if (sacola[id]) delete sacola[id]; else sacola[id] = 1;
+  montarProdutos(); atualizarSacola();
+}
+function atualizarSacola() {
+  const ids = Object.keys(sacola);
+  $('#sacola').classList.toggle('on', ids.length > 0);
+  if (!ids.length) return;
+  const itens = ids.map(id => D.produtos.find(p => p.id === id));
+  const total = itens.reduce((t, p) => t + p.preco, 0);
+  $('#sacolaQtd').textContent = `🛍️ ${ids.length} produto${ids.length > 1 ? 's' : ''}`;
+  $('#sacolaTotal').textContent = 'Total ' + dinheiro(total);
+  const txt = `Olá, Nysse! 💛 Quero separar estes produtos:\n\n` + itens.map(p => `• ${p.nome} – ${dinheiro(p.preco)}`).join('\n') +
+    `\n\n*Total: ${dinheiro(total)}*\nRetiro no salão. Pode separar pra mim?`;
+  $('#sacolaEnviar').href = linkWhats(D.config.whatsapp, txt);
+}
+
+/* ---------- agendamento ---------- */
+let ag = {};
+function abrirAgenda(id) {
+  D = nysseCarregar();
+  const s = D.servicos.find(x => x.id === id);
+  ag = { s, opcao: s.opcoes ? null : '', dia: null, hora: null };
+  history.replaceState(null, '', '#agendar/' + id);
+  $('#tela').classList.add('on');
+  document.body.style.overflow = 'hidden';
+  desenharFolha();
+}
+function fecharAgenda() {
+  $('#tela').classList.remove('on');
+  document.body.style.overflow = '';
+  history.replaceState(null, '', location.pathname);
+}
+$('#tela').addEventListener('click', e => { if (e.target.id === 'tela') fecharAgenda(); });
+
+function desenharFolha() {
+  const s = ag.s;
+  const capa = s.fotos.length ? `<img src="${foto(s.fotos[0])}" alt="">` : `<div style="height:100%;display:grid;place-items:center;font-size:70px;background:radial-gradient(circle at 30% 25%,#fff7e8,var(--areia))">${s.icone}</div>`;
+  let n = 1;
+  let h = `<div class="folha-topo">${capa}<div class="grad"></div>
+      <div class="nome"><h3>${s.nome}</h3><small>⏱ ${duracaoTexto(s.dur)} · ${s.preco}</small></div>
+      <button class="fechar" onclick="fecharAgenda()" aria-label="Fechar">✕</button></div>
+    <div class="folha-corpo">`;
+
+  if (s.opcoes) {
+    h += `<div class="etapa"><h4><i>${n++}</i>O que você quer fazer?</h4><div class="opcoes">` +
+      s.opcoes.map(o => `<button class="chip ${ag.opcao === o.nome ? 'sel' : ''}" onclick="escolherOpcao('${o.nome}')">${o.nome}<small>${o.preco}</small></button>`).join('') +
+      `</div></div>`;
+  }
+  const podeDia = !s.opcoes || ag.opcao;
+  h += `<div class="etapa ${podeDia ? '' : 'travada'}"><h4><i>${n++}</i>Escolha o dia</h4><div class="dias" id="dias">`;
+  nysseDias(D, s).forEach(d => {
+    const cls = d.fechado ? 'fechado' : (d.livres === 0 ? 'lotado' : '');
+    const txt = d.fechado ? 'Fechado' : (d.livres === 0 ? 'Lotado' : d.livres + ' livre' + (d.livres > 1 ? 's' : ''));
+    h += `<button class="dia ${cls} ${ag.dia === d.iso ? 'sel' : ''}" ${cls ? 'disabled' : ''} onclick="escolherDia('${d.iso}')">
+      <div class="sem">${DIAS_CURTO[d.dt.getDay()]}</div><div class="num">${d.dt.getDate()}</div><div class="mes">${MESES[d.dt.getMonth()]}</div><span class="livres">${txt}</span></button>`;
+  });
+  h += `</div></div>`;
+
+  h += `<div class="etapa ${ag.dia ? '' : 'travada'}" id="etapaHora"><h4><i>${n++}</i>Escolha o horário</h4>`;
+  if (ag.dia) {
+    const hs = nysseHorariosDoDia(D, ag.dia, s);
+    h += `<p style="color:var(--suave);font-size:14.5px;margin:-4px 0 10px">${dataBonita(ag.dia)}</p>`;
+    if (!hs || !hs.length) h += `<div class="vazio">Sem horários neste dia.</div>`;
+    else h += `<div class="horas">` + hs.map(x => x.livre
+        ? `<button class="hora ${ag.hora === x.hora ? 'sel' : ''}" onclick="escolherHora('${x.hora}')">${x.hora}</button>`
+        : `<button class="hora res" disabled><s>${x.hora}</s>Reservado</button>`).join('') + `</div>
+        <div class="legenda"><span>Livre</span><span class="r">Reservado</span></div>`;
+  } else h += `<div class="vazio">Escolha um dia acima 👆</div>`;
+  h += `</div>`;
+
+  h += `<div class="etapa ${ag.hora ? '' : 'travada'}" id="etapaDados"><h4><i>${n++}</i>Seus dados</h4>
+      <label class="campo"><span>Seu nome</span><input id="fNome" autocomplete="name" placeholder="Ex.: Maria Silva" value="${ag.nome || ''}"></label>
+      <label class="campo"><span>Seu WhatsApp</span><input id="fWhats" type="tel" inputmode="tel" autocomplete="tel" placeholder="(51) 9 9999-9999" value="${ag.whats || ''}"></label>
+      <label class="campo"><span>Quer contar algo? <small style="font-weight:400;color:var(--suave)">(opcional)</small></span><textarea id="fObs" rows="2" placeholder="Ex.: quero clarear mais as pontas">${ag.obs || ''}</textarea></label>`;
+  if (ag.hora) {
+    h += `<div class="resumo">
+        <div><span>Serviço</span><b>${s.icone} ${s.nome}${ag.opcao ? ' – ' + ag.opcao : ''}</b></div>
+        <div><span>Dia</span><b>${dataBonita(ag.dia)}</b></div>
+        <div><span>Horário</span><b>${ag.hora} (${duracaoTexto(s.dur)})</b></div>
+        <div><span>Sinal para garantir</span><b>${dinheiro(s.sinal)} no Pix</b></div>
+      </div>
+      <button class="btn btn-ouro btn-largo" onclick="reservar()">Reservar este horário</button>
+      <p style="text-align:center;font-size:13.5px;color:var(--suave);margin-top:10px">Você só paga o sinal depois que a Nysse confirmar.</p>`;
+  }
+  h += `</div></div>`;
+  $('#folha').innerHTML = h;
+}
+function guardarCampos() {
+  if ($('#fNome')) { ag.nome = $('#fNome').value; ag.whats = $('#fWhats').value; ag.obs = $('#fObs').value; }
+}
+function escolherOpcao(o) { guardarCampos(); ag.opcao = o; desenharFolha(); }
+function escolherDia(iso) {
+  guardarCampos(); ag.dia = iso; ag.hora = null; desenharFolha();
+  setTimeout(() => $('#etapaHora').scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+}
+function escolherHora(h) {
+  guardarCampos(); ag.hora = h; desenharFolha();
+  setTimeout(() => $('#etapaDados').scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+}
+
+function reservar() {
+  guardarCampos();
+  const nome = (ag.nome || '').trim(), whats = (ag.whats || '').trim();
+  if (nome.length < 2) { $('#fNome').focus(); $('#fNome').style.borderColor = '#d9534f'; return; }
+  if (whats.replace(/\D/g, '').length < 10) { $('#fWhats').focus(); $('#fWhats').style.borderColor = '#d9534f'; return; }
+  D = nysseCarregar();
+  // confere de novo se o horário continua livre
+  const livre = (nysseHorariosDoDia(D, ag.dia, ag.s) || []).find(x => x.hora === ag.hora && x.livre);
+  if (!livre) { alert('Ops! Esse horário acabou de ser reservado. Escolha outro, por favor.'); ag.hora = null; desenharFolha(); return; }
+  const a = {
+    id: 'a' + Date.now(), codigo: nysseCodigo(), servicoId: ag.s.id, opcao: ag.opcao || '', data: ag.dia, hora: ag.hora,
+    dur: ag.s.dur, agenda: ag.s.agenda, nome, whats, obs: (ag.obs || '').trim(), sinal: ag.s.sinal, status: 'novo', criadoEm: Date.now()
+  };
+  D.agendamentos.push(a); nysseSalvar(D);
+  const link = linkWhats(D.config.whatsapp, msgPedidoParaNysse(D, a));
+  $('#folha').innerHTML = `
+    <div class="sucesso">
+      <div class="ok">✓</div>
+      <h3>Horário pré-reservado!</h3>
+      <p><b>${ag.s.nome}${a.opcao ? ' – ' + a.opcao : ''}</b><br>${dataBonita(a.data)} às ${a.hora}<br><small>Código ${a.codigo}</small></p>
+      <a class="btn btn-verde btn-largo" href="${link}" target="_blank" rel="noopener">Enviar pedido para a Nysse no WhatsApp</a>
+      <div class="linha-tempo">
+        <div class="feito"><span class="n">✓</span><span><b>Horário separado para você</b>Ninguém mais consegue marcar nele.</span></div>
+        <div><span class="n">2</span><span><b>A Nysse confirma pelo WhatsApp</b>e te manda a chave Pix do sinal de ${dinheiro(a.sinal)}.</span></div>
+        <div><span class="n">3</span><span><b>Envie o comprovante</b>e seu horário fica garantido. 💛</span></div>
+      </div>
+      <button class="btn btn-linha btn-largo" onclick="fecharAgenda()">Voltar ao site</button>
+    </div>`;
+  $('#folha').scrollTop = 0;
+}
+
+/* ---------- início ---------- */
+$('#whatsTopo').href = linkWhats(D.config.whatsapp, 'Olá, Nysse! Vim pelo site 💛');
+$('#infoEndereco').textContent = D.config.endereco;
+$('#btnMapa').href = D.config.mapa;
+$('#btnInsta').href = D.config.instagram;
+montarServicos(); montarGaleria(); montarProdutos();
+const rota = location.hash.match(/^#agendar\/(\w+)/);
+if (rota && D.servicos.some(s => s.id === rota[1])) abrirAgenda(rota[1]);
+</script>
+</body>
+</html>

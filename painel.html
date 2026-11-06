@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel do salão · Nysse</title>
+<meta name="theme-color" content="#1E1A16">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="img/icon-192.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--creme:#FAF6EF;--creme2:#F3EBDD;--areia:#E8DCC6;--ouro:#B8914A;--ouro-claro:#D9B77A;--ouro-escuro:#8C6B3A;--preto:#1E1A16;--texto:#2E2822;--suave:#76695A;--verde:#1FA855;--vermelho:#C8483B;--laranja:#D9822B;--azul:#3C6FB0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito Sans',system-ui,sans-serif;background:var(--creme);color:var(--texto);font-size:18px;line-height:1.45;-webkit-font-smoothing:antialiased;padding-bottom:96px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+.serif{font-family:'Cormorant Garamond',Georgia,serif}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+
+/* login */
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 0%,#fff6e4,var(--creme) 60%)}
+.caixa-login{width:100%;max-width:380px;text-align:center}
+.caixa-login img{width:130px;height:130px;border-radius:50%;margin:0 auto 14px;box-shadow:0 0 0 6px #fff,0 0 0 7px var(--ouro-claro)}
+.caixa-login h1{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--preto)}
+.caixa-login p{color:var(--suave);margin-bottom:20px}
+.caixa-login input{width:100%;min-height:58px;border-radius:16px;border:2px solid var(--areia);padding:0 16px;font-size:20px;text-align:center;background:#fff;margin-bottom:12px}
+.caixa-login .dica{font-size:14px;margin-top:12px;color:var(--suave)}
+.caixa-login .tf{display:block;margin-top:34px;font-size:12.5px;color:#a3978a;text-decoration:none}
+
+/* topo */
+.topo{background:var(--preto);color:#fff;padding:16px 0 18px}
+.topo .wrap{display:flex;align-items:center;gap:12px}
+.topo img{width:50px;height:50px;border-radius:50%;box-shadow:0 0 0 2px var(--ouro)}
+.topo h1{font-family:'Cormorant Garamond',serif;font-size:28px;line-height:1}
+.topo small{color:#cbbfae;font-size:14px}
+
+.resumo{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.resumo button{background:#fff;border-radius:16px;padding:12px 8px 10px;text-align:center;border:1px solid var(--areia);box-shadow:0 6px 16px -12px rgba(60,40,10,.5);transition:transform .15s}
+.resumo button:active{transform:scale(.95)}
+.resumo button::after{content:"ver ›";display:block;margin-top:4px;font-size:12.5px;font-weight:800;color:var(--ouro-escuro)}
+h2.sec{scroll-margin-top:14px}
+.piscar{animation:piscar 1.4s ease}
+@keyframes piscar{0%,100%{background:transparent}30%{background:#FFF1D6}}
+.resumo b{display:block;font-family:'Cormorant Garamond',serif;font-size:34px;line-height:1;color:var(--preto)}
+.resumo span{font-size:13.5px;color:var(--suave);font-weight:700}
+.resumo .alerta{background:#FFF4E0;border-color:var(--ouro-claro)}
+
+h2.sec{font-size:20px;margin:24px 0 4px;color:var(--preto);display:flex;align-items:center;gap:8px}
+p.sec{color:var(--suave);font-size:15px;margin-bottom:12px}
+.vazio{background:#fff;border-radius:16px;padding:18px;text-align:center;color:var(--suave);border:1px dashed var(--areia);font-size:16px}
+
+/* cartão de agendamento */
+.ag{background:#fff;border-radius:20px;padding:16px;margin-bottom:12px;border:1px solid var(--areia);box-shadow:0 8px 20px -14px rgba(60,40,10,.4)}
+.ag.novo{border:2px solid var(--ouro);background:#FFFBF2}
+.ag .linha1{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.ag .serv{font-size:20px;font-weight:800;color:var(--preto)}
+.ag .quando{font-size:18px;margin-top:2px}
+.ag .quando b{font-size:22px}
+.ag .cli{margin-top:8px;color:var(--suave);font-size:16px}
+.ag .cli b{color:var(--texto)}
+.ag .obs{margin-top:6px;background:var(--creme);padding:8px 10px;border-radius:10px;font-size:15px}
+.st{flex:none;font-size:13px;font-weight:800;padding:5px 10px;border-radius:999px;white-space:nowrap}
+.st.novo{background:var(--ouro);color:#fff}
+.st.sinal{background:#FCE9D2;color:var(--laranja)}
+.st.confirmado{background:#E3F5EA;color:var(--verde)}
+.st.cancelado{background:#F6E1DE;color:var(--vermelho)}
+.st.concluido{background:#E6EDF7;color:var(--azul)}
+.acoes{display:grid;gap:8px;margin-top:14px}
+.acoes.duas{grid-template-columns:1fr 1fr}
+.b{min-height:56px;border-radius:14px;font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;padding:0 12px;text-align:center;line-height:1.15}
+.b-verde{background:var(--verde);color:#fff}
+.b-ouro{background:linear-gradient(135deg,var(--ouro-claro),var(--ouro));color:#fff}
+.b-escuro{background:var(--preto);color:#fff}
+.b-linha{background:#fff;border:2px solid var(--areia);color:var(--texto)}
+.b-perigo{background:#fff;border:2px solid #EBC9C4;color:var(--vermelho)}
+.b-peq{min-height:46px;font-size:15.5px}
+
+/* agenda */
+.dias{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;margin-bottom:6px}
+.dia{flex:none;width:70px;padding:8px 4px;border-radius:16px;background:#fff;border:2px solid var(--areia);text-align:center;line-height:1.15}
+.dia .s{font-size:13px;color:var(--suave);font-weight:800;text-transform:uppercase}
+.dia .n{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700}
+.dia .q{display:block;font-size:12px;font-weight:800;color:var(--ouro-escuro)}
+.dia.fechado{opacity:.5;border-style:dashed}
+.dia.sel{background:var(--preto);border-color:var(--preto);color:#fff}
+.dia.sel .s,.dia.sel .q{color:var(--ouro-claro)}
+.linha-hora{display:flex;gap:12px;align-items:stretch;margin-bottom:10px}
+.linha-hora .h{flex:none;width:62px;font-weight:800;font-size:18px;padding-top:14px;color:var(--preto)}
+.linha-hora .ag{flex:1;margin:0}
+.linha-hora .livre{flex:1;border:2px dashed var(--areia);border-radius:16px;color:#b3a794;display:flex;align-items:center;padding:0 14px;min-height:50px;font-size:15px}
+.bloq{background:repeating-linear-gradient(-45deg,#f1ebe1,#f1ebe1 8px,#ece4d6 8px,#ece4d6 16px);border-radius:16px;padding:12px 14px;flex:1;display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--suave);font-weight:700}
+.tag-agenda{display:inline-block;font-size:12.5px;font-weight:800;padding:2px 8px;border-radius:6px;background:var(--creme2);color:var(--ouro-escuro);margin-left:6px;vertical-align:2px}
+.filtro{display:flex;gap:8px;margin-bottom:12px}
+.filtro button{flex:1;min-height:46px;border-radius:12px;background:#fff;border:2px solid var(--areia);font-weight:800;font-size:15.5px}
+.filtro button.sel{border-color:var(--ouro);background:#FFF8EA}
+
+/* ajustes */
+.bloco{background:#fff;border-radius:18px;padding:16px;border:1px solid var(--areia);margin-bottom:14px}
+.bloco h3{font-size:18px;margin-bottom:10px}
+.campo{display:block;margin-bottom:12px}
+.campo span{display:block;font-weight:700;font-size:15px;margin-bottom:4px;color:var(--suave)}
+.campo input,.campo select,.campo textarea{width:100%;min-height:52px;border-radius:12px;border:2px solid var(--areia);background:#fff;padding:0 12px;font-size:17px}
+.campo textarea{padding:10px 12px}
+.grade2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.serv-aj{border-top:1px solid var(--areia);padding-top:12px;margin-top:12px}
+.serv-aj:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.serv-aj b{display:block;margin-bottom:8px;font-size:17px}
+.dia-aj{display:grid;grid-template-columns:110px 1fr 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.dia-aj label{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px}
+.dia-aj input[type=time]{min-height:46px;border-radius:10px;border:2px solid var(--areia);padding:0 6px;width:100%;font-size:16px}
+input[type=checkbox]{width:24px;height:24px;accent-color:var(--ouro)}
+.prod-aj{display:grid;grid-template-columns:1fr 110px 44px;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--areia)}
+.prod-aj:first-of-type{border-top:0}
+.prod-aj input[type=number]{min-height:46px;border-radius:10px;border:2px solid var(--areia);padding:0 8px;width:100%}
+.salvo{position:fixed;left:50%;top:18px;transform:translateX(-50%);background:var(--verde);color:#fff;padding:12px 20px;border-radius:999px;font-weight:800;z-index:90;display:none;box-shadow:0 10px 24px -10px rgba(0,0,0,.4)}
+
+/* menu de baixo */
+.menu{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--areia);display:grid;grid-template-columns:repeat(3,1fr);z-index:50;padding-bottom:env(safe-area-inset-bottom)}
+.menu button{min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-weight:800;font-size:14.5px;color:var(--suave);position:relative}
+.menu button i{font-style:normal;font-size:26px}
+.menu button.sel{color:var(--preto)}
+.menu button.sel::before{content:"";position:absolute;top:0;left:25%;right:25%;height:4px;border-radius:0 0 4px 4px;background:var(--ouro)}
+.menu .badge{position:absolute;top:8px;left:calc(50% + 8px);background:var(--vermelho);color:#fff;font-size:12px;min-width:22px;height:22px;border-radius:11px;display:grid;place-items:center;padding:0 5px}
+
+/* janela */
+.janela{position:fixed;inset:0;background:rgba(30,26,22,.55);z-index:80;display:none;align-items:flex-end;justify-content:center}
+.janela.on{display:flex}
+.janela .conteudo{background:var(--creme);width:100%;max-width:560px;max-height:92vh;overflow-y:auto;border-radius:24px 24px 0 0;padding:20px 16px 24px}
+@media(min-width:700px){.janela{align-items:center}.janela .conteudo{border-radius:24px}}
+.janela h3{font-family:'Cormorant Garamond',serif;font-size:30px;margin-bottom:12px;color:var(--preto)}
+.horas-esc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.horas-esc button{min-height:46px;border-radius:10px;background:#fff;border:2px solid var(--areia);font-weight:800}
+.horas-esc button.sel{background:var(--preto);color:#fff;border-color:var(--preto)}
+.horas-esc button:disabled{opacity:.35;text-decoration:line-through}
+.oculto{display:none!important}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div class="caixa-login">
+    <img src="img/logo.png" alt="Nysse">
+    <h1>Painel do salão</h1>
+    <p>Seus agendamentos num lugar só</p>
+    <input id="senha" type="password" inputmode="numeric" placeholder="Digite sua senha" onkeydown="if(event.key==='Enter')entrar()">
+    <button class="b b-escuro" style="width:100%" onclick="entrar()">Entrar</button>
+    <p class="dica">Demonstração: senha <b>1234</b></p>
+    <a class="tf" href="https://www.tfsolutions.com.br" target="_blank" rel="noopener">Sistema desenvolvido por TF Solutions</a>
+  </div>
+</div>
+
+<div id="app" class="oculto">
+  <div class="topo"><div class="wrap">
+    <img src="img/logo.png" alt="">
+    <div><h1>Olá, Nysse 💛</h1><small id="hojeTxt"></small></div>
+  </div></div>
+
+  <div class="wrap">
+    <!-- PEDIDOS -->
+    <div id="abaPedidos">
+      <div class="resumo">
+        <button id="rNovos" onclick="irPara('secNovos')"><b>0</b><span>novos pedidos</span></button>
+        <button onclick="irPara('secSinal')"><b id="rSinal">0</b><span>esperando sinal</span></button>
+        <button onclick="irPara('secHoje')"><b id="rHoje">0</b><span>clientes hoje</span></button>
+      </div>
+      <h2 class="sec" id="secNovos">🔔 Novos pedidos</h2>
+      <p class="sec">Confira na sua agenda e confirme. O WhatsApp abre com a mensagem pronta pedindo o sinal.</p>
+      <div id="listaNovos"></div>
+      <h2 class="sec" id="secSinal">⏳ Esperando o sinal</h2>
+      <p class="sec">Quando a cliente mandar o comprovante, toque em “Recebi o sinal”.</p>
+      <div id="listaSinal"></div>
+      <h2 class="sec" id="secHoje">👥 Clientes de hoje</h2>
+      <div id="listaHoje"></div>
+      <h2 class="sec">✅ Próximos confirmados</h2>
+      <div id="listaConf"></div>
+    </div>
+
+    <!-- AGENDA -->
+    <div id="abaAgenda" class="oculto">
+      <h2 class="sec" style="margin-top:18px">📅 Agenda</h2>
+      <div class="dias" id="diasAgenda"></div>
+      <div class="filtro">
+        <button data-f="cabelo" class="sel" onclick="filtrar('cabelo')">💇‍♀️ Cabelo</button>
+        <button data-f="unhas" onclick="filtrar('unhas')">💅 Unhas</button>
+      </div>
+      <div class="acoes duas" style="margin:0 0 14px">
+        <button class="b b-ouro b-peq" onclick="abrirNovo()">＋ Marcar cliente</button>
+        <button class="b b-linha b-peq" onclick="abrirBloqueio()">🔒 Fechar horário</button>
+      </div>
+      <div id="linhaDia"></div>
+    </div>
+
+    <!-- AJUSTES -->
+    <div id="abaAjustes" class="oculto">
+      <h2 class="sec" style="margin-top:18px">⚙️ Ajustes</h2>
+      <p class="sec">Mude aqui e o site atualiza na hora.</p>
+
+      <div class="bloco">
+        <h3>💰 Pix do sinal e WhatsApp</h3>
+        <label class="campo"><span>Chave Pix</span><input id="cPix"></label>
+        <label class="campo"><span>Nome que aparece no Pix</span><input id="cPixNome"></label>
+        <label class="campo"><span>WhatsApp que recebe os pedidos (com DDD)</span><input id="cWhats" inputmode="tel"></label>
+      </div>
+
+      <div class="bloco">
+        <h3>✂️ Serviços</h3>
+        <div id="ajServicos"></div>
+      </div>
+
+      <div class="bloco">
+        <h3>🕘 Dias e horários do salão</h3>
+        <div id="ajHorarios"></div>
+        <div class="grade2" style="margin-top:8px">
+          <label class="campo"><span>Almoço das</span><input type="time" id="cAlm1"></label>
+          <label class="campo"><span>até</span><input type="time" id="cAlm2"></label>
+        </div>
+      </div>
+
+      <div class="bloco">
+        <h3>🧴 Produtos à venda</h3>
+        <p class="sec" style="margin:-4px 0 6px">Desmarque para esconder do site.</p>
+        <div id="ajProdutos"></div>
+      </div>
+
+      <button class="b b-verde" style="width:100%;margin-bottom:12px" onclick="salvarAjustes()">Salvar ajustes</button>
+      <div class="acoes duas">
+        <a class="b b-linha b-peq" href="index.html" target="_blank">Ver meu site</a>
+        <button class="b b-linha b-peq" onclick="sair()">Sair</button>
+      </div>
+      <button class="b b-perigo b-peq" style="width:100%;margin-top:10px" onclick="if(confirm('Voltar a demonstração ao início? Os testes serão apagados.')){D=nysseRestaurar();tudo();}">Restaurar demonstração</button>
+      <p style="text-align:center;font-size:12.5px;color:#a3978a;margin:22px 0 8px"><a href="https://www.tfsolutions.com.br" target="_blank" rel="noopener" style="color:inherit">Sistema desenvolvido por TF Solutions</a></p>
+    </div>
+  </div>
+
+  <nav class="menu">
+    <button data-aba="Pedidos" class="sel" onclick="aba('Pedidos')"><i>🔔</i>Pedidos<span class="badge oculto" id="badge">0</span></button>
+    <button data-aba="Agenda" onclick="aba('Agenda')"><i>📅</i>Agenda</button>
+    <button data-aba="Ajustes" onclick="aba('Ajustes')"><i>⚙️</i>Ajustes</button>
+  </nav>
+</div>
+
+<div class="janela" id="janela"><div class="conteudo" id="janelaConteudo"></div></div>
+<div class="salvo" id="salvo">✓ Salvo</div>
+
+<script src="dados.js"></script>
+<script>
+let D = nysseCarregar();
+const $ = s => document.querySelector(s);
+const hojeISO = dataISO(new Date());
+let diaSel = hojeISO, agendaSel = 'cabelo';
+const serv = id => D.servicos.find(s => s.id === id);
+const NOME_ST = { novo: 'Novo pedido', sinal: 'Esperando sinal', confirmado: 'Confirmado', cancelado: 'Cancelado', concluido: 'Atendido' };
+
+/* ---------- entrar ---------- */
+function entrar() {
+  if ($('#senha').value === D.config.senha) {
+    try { sessionStorage.setItem('nysse_logada', '1'); } catch (e) {}
+    mostrarApp();
+  } else { $('#senha').value = ''; $('#senha').placeholder = 'Senha errada, tente de novo'; $('#senha').style.borderColor = 'var(--vermelho)'; }
+}
+function mostrarApp() { $('#login').classList.add('oculto'); $('#app').classList.remove('oculto'); tudo(); }
+function sair() { try { sessionStorage.removeItem('nysse_logada'); } catch (e) {} location.reload(); }
+try { if (sessionStorage.getItem('nysse_logada')) mostrarApp(); } catch (e) {}
+
+function aba(n) {
+  ['Pedidos', 'Agenda', 'Ajustes'].forEach(x => $('#aba' + x).classList.toggle('oculto', x !== n));
+  document.querySelectorAll('.menu button').forEach(b => b.classList.toggle('sel', b.dataset.aba === n));
+  window.scrollTo(0, 0);
+  if (n === 'Ajustes') montarAjustes();
+}
+function irPara(id) {
+  const el = document.getElementById(id);
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  el.classList.remove('piscar'); void el.offsetWidth; el.classList.add('piscar');
+}
+function verHoje() {
+  diaSel = hojeISO; agendaSel = 'cabelo';
+  aba('Agenda'); montarAgenda();
+}
+function avisar(t) { const s = $('#salvo'); s.textContent = t || '✓ Salvo'; s.style.display = 'block'; setTimeout(() => s.style.display = 'none', 1800); }
+function gravar() { nysseSalvar(D); tudo(); }
+
+/* ---------- cartões ---------- */
+function ordenar(l) { return l.sort((a, b) => (a.data + a.hora).localeCompare(b.data + b.hora)); }
+function quando(a) {
+  const rel = a.data === hojeISO ? 'Hoje' : (a.data === dataISO(new Date(Date.now() + 864e5)) ? 'Amanhã' : dataBonita(a.data));
+  return `${rel}${rel === 'Hoje' || rel === 'Amanhã' ? ' (' + dataBonita(a.data).split(', ')[1] + ')' : ''} · <b>${a.hora}</b>`;
+}
+function cartao(a, modo) {
+  const s = serv(a.servicoId);
+  let acoes = '';
+  if (a.status === 'novo') acoes = `
+      <div class="acoes">
+        <button class="b b-verde" onclick="confirmar('${a.id}')">✅ Confirmar e pedir o sinal</button>
+        <button class="b b-perigo b-peq" onclick="cancelar('${a.id}')">Não posso neste horário</button>
+      </div>`;
+  else if (a.status === 'sinal') acoes = `
+      <div class="acoes">
+        <button class="b b-ouro" onclick="recebiSinal('${a.id}')">💰 Recebi o sinal</button>
+        <div class="acoes duas" style="margin:0">
+          <a class="b b-linha b-peq" target="_blank" rel="noopener" href="${linkWhats(a.whats, msgConfirmarPedirSinal(D, a))}">Lembrar cliente</a>
+          <button class="b b-perigo b-peq" onclick="cancelar('${a.id}')">Cancelar</button>
+        </div>
+      </div>`;
+  else if (modo === 'agenda' && a.status === 'confirmado') acoes = `
+      <div class="acoes duas">
+        <a class="b b-linha b-peq" target="_blank" rel="noopener" href="${linkWhats(a.whats, 'Olá, ' + a.nome.split(' ')[0] + '! Aqui é da Nysse 💛 ')}">💬 WhatsApp</a>
+        <button class="b b-perigo b-peq" onclick="cancelar('${a.id}')">Cancelar</button>
+      </div>`;
+  return `<div class="ag ${a.status === 'novo' ? 'novo' : ''}">
+      <div class="linha1"><div>
+        <div class="serv">${s.icone} ${s.nome}${a.opcao ? ' – ' + a.opcao : ''}</div>
+        ${modo === 'agenda' ? `<div class="quando">até ${paraHora(paraMin(a.hora) + a.dur)} · ${duracaoTexto(a.dur)}</div>` : `<div class="quando">${quando(a)}</div>`}
+      </div><span class="st ${a.status}">${NOME_ST[a.status]}</span></div>
+      <div class="cli">👤 <b>${a.nome}</b> · ${a.whats}${a.status !== 'novo' && a.status !== 'cancelado' ? '' : ''}</div>
+      ${a.obs ? `<div class="obs">📝 ${a.obs}</div>` : ''}
+      ${a.status === 'sinal' || a.status === 'novo' ? `<div class="cli">Sinal: <b>${dinheiro(a.sinal)}</b> · código ${a.codigo}</div>` : ''}
+      ${acoes}
+    </div>`;
+}
+
+/* ---------- ações ---------- */
+function achar(id) { return D.agendamentos.find(a => a.id === id); }
+function abrirWhats(numero, texto) { window.open(linkWhats(numero, texto), '_blank'); }
+function confirmar(id) { D = nysseCarregar(); const a = achar(id); a.status = 'sinal'; a.confirmadoEm = Date.now(); gravar(); abrirWhats(a.whats, msgConfirmarPedirSinal(D, a)); avisar('✓ Pré-reservado · mande a mensagem'); }
+function recebiSinal(id) {
+  D = nysseCarregar(); const a = achar(id); a.status = 'confirmado'; a.sinalEm = Date.now(); gravar();
+  janela(`<h3>Horário confirmado ✅</h3><p style="margin-bottom:16px">${a.nome} · ${serv(a.servicoId).nome}<br>${dataBonita(a.data)} às ${a.hora}</p>
+    <a class="b b-verde" style="margin-bottom:10px" target="_blank" rel="noopener" href="${linkWhats(a.whats, msgConfirmado(D, a))}" onclick="fecharJanela()">Avisar a cliente no WhatsApp</a>
+    <button class="b b-linha" style="width:100%" onclick="fecharJanela()">Agora não</button>`);
+}
+function cancelar(id) {
+  D = nysseCarregar(); const a = achar(id);
+  janela(`<h3>Cancelar este horário?</h3><p style="margin-bottom:16px">${a.nome} · ${serv(a.servicoId).nome}<br>${dataBonita(a.data)} às ${a.hora}<br><small style="color:var(--suave)">O horário volta a ficar livre no site.</small></p>
+    <a class="b b-perigo" style="margin-bottom:10px" target="_blank" rel="noopener" href="${linkWhats(a.whats, msgCancelado(D, a))}" onclick="efetivarCancelamento('${id}')">Cancelar e avisar no WhatsApp</a>
+    <button class="b b-linha" style="width:100%;margin-bottom:10px" onclick="efetivarCancelamento('${id}')">Só cancelar</button>
+    <button class="b b-linha" style="width:100%" onclick="fecharJanela()">Voltar</button>`);
+}
+function efetivarCancelamento(id) { D = nysseCarregar(); achar(id).status = 'cancelado'; gravar(); fecharJanela(); avisar('Horário liberado'); }
+
+/* ---------- telas ---------- */
+function montarPedidos() {
+  const futuros = D.agendamentos.filter(a => a.data >= hojeISO);
+  const novos = ordenar(futuros.filter(a => a.status === 'novo'));
+  const sinal = ordenar(futuros.filter(a => a.status === 'sinal'));
+  const conf = ordenar(futuros.filter(a => a.status === 'confirmado')).slice(0, 5);
+  $('#rNovos').innerHTML = `<b>${novos.length}</b><span>novo${novos.length === 1 ? '' : 's'} pedido${novos.length === 1 ? '' : 's'}</span>`;
+  $('#rNovos').classList.toggle('alerta', novos.length > 0);
+  $('#rSinal').textContent = sinal.length;
+  $('#rHoje').textContent = D.agendamentos.filter(a => a.data === hojeISO && (a.status === 'confirmado' || a.status === 'sinal')).length;
+  const deHoje = ordenar(D.agendamentos.filter(a => a.data === hojeISO && (a.status === 'confirmado' || a.status === 'sinal')));
+  $('#listaHoje').innerHTML = deHoje.length ? deHoje.map(a => cartao(a)).join('') : `<div class="vazio">Nenhuma cliente marcada para hoje.</div>`;
+  $('#listaNovos').innerHTML = novos.length ? novos.map(a => cartao(a)).join('') : `<div class="vazio">Nenhum pedido novo agora 😊</div>`;
+  $('#listaSinal').innerHTML = sinal.length ? sinal.map(a => cartao(a)).join('') : `<div class="vazio">Ninguém esperando sinal.</div>`;
+  $('#listaConf').innerHTML = conf.length ? conf.map(a => cartao(a)).join('') + `<button class="b b-linha b-peq" style="width:100%" onclick="aba('Agenda')">Ver agenda completa</button>` : `<div class="vazio">Sem horários confirmados.</div>`;
+  $('#badge').textContent = novos.length; $('#badge').classList.toggle('oculto', !novos.length);
+  const h = new Date(); $('#hojeTxt').textContent = DIAS_SEMANA[h.getDay()] + ', ' + h.getDate() + ' de ' + MESES[h.getMonth()];
+  document.title = (novos.length ? '(' + novos.length + ') ' : '') + 'Painel do salão · Nysse';
+}
+
+function montarAgenda() {
+  const base = new Date(); base.setHours(0, 0, 0, 0);
+  let h = '';
+  for (let i = 0; i < 21; i++) {
+    const dt = new Date(base); dt.setDate(base.getDate() + i); const iso = dataISO(dt);
+    const qtd = D.agendamentos.filter(a => a.data === iso && a.agenda === agendaSel && a.status !== 'cancelado').length;
+    const fechado = !D.config.horarios[dt.getDay()];
+    h += `<button class="dia ${fechado ? 'fechado' : ''} ${iso === diaSel ? 'sel' : ''}" onclick="diaSel='${iso}';montarAgenda()">
+      <div class="s">${i === 0 ? 'Hoje' : DIAS_CURTO[dt.getDay()]}</div><div class="n">${dt.getDate()}</div><span class="q">${fechado ? 'fechado' : (qtd ? qtd + ' cliente' + (qtd > 1 ? 's' : '') : 'livre')}</span></button>`;
+  }
+  $('#diasAgenda').innerHTML = h;
+  document.querySelectorAll('.filtro button').forEach(b => b.classList.toggle('sel', b.dataset.f === agendaSel));
+
+  const exp = D.config.horarios[deISO(diaSel).getDay()];
+  const lista = ordenar(D.agendamentos.filter(a => a.data === diaSel && a.agenda === agendaSel && a.status !== 'cancelado'));
+  const bloq = D.bloqueios.filter(b => b.data === diaSel && (b.agenda === 'todas' || b.agenda === agendaSel));
+  let c = `<h2 class="sec" style="margin-top:4px">${dataBonita(diaSel)}<span class="tag-agenda">${agendaSel === 'cabelo' ? 'Cabelo' : 'Unhas'}</span></h2>`;
+  if (!exp) c += `<div class="vazio">Salão fechado neste dia.</div>`;
+  bloq.forEach(b => c += `<div class="linha-hora"><span class="h">${b.inicio || 'Dia'}</span><div class="bloq"><span>🔒 ${b.inicio ? b.inicio + ' às ' + b.fim : 'Dia todo fechado'}${b.motivo ? ' · ' + b.motivo : ''}</span><button class="b b-linha b-peq" style="min-height:40px" onclick="tirarBloqueio('${b.id}')">Abrir</button></div></div>`);
+  if (exp) {
+    // mostra horários livres de hora em hora para ela enxergar os buracos
+    const abre = paraMin(exp[0]), fecha = paraMin(exp[1]);
+    const itens = lista.map(a => ({ m: paraMin(a.hora), html: `<div class="linha-hora"><span class="h">${a.hora}</span>${cartao(a, 'agenda')}</div>` }));
+    const ocup = nysseOcupacoes(D, diaSel, agendaSel);
+    const alm = D.config.almoco ? [paraMin(D.config.almoco[0]), paraMin(D.config.almoco[1])] : null;
+    for (let m = abre; m < fecha; m += 60) {
+      if (ocup.some(([x, y]) => m < y && m + 60 > x)) continue;
+      if (alm && m >= alm[0] && m < alm[1]) { itens.push({ m, html: `<div class="linha-hora"><span class="h">${paraHora(m)}</span><div class="livre">🍽️ Almoço</div></div>` }); continue; }
+      itens.push({ m, html: `<div class="linha-hora"><span class="h">${paraHora(m)}</span><div class="livre">Livre</div></div>` });
+    }
+    c += itens.sort((a, b) => a.m - b.m).map(x => x.html).join('');
+  }
+  $('#linhaDia').innerHTML = c;
+}
+function filtrar(f) { agendaSel = f; montarAgenda(); }
+
+/* ---------- marcar cliente / fechar horário ---------- */
+function janela(html) { $('#janelaConteudo').innerHTML = html; $('#janela').classList.add('on'); }
+function fecharJanela() { $('#janela').classList.remove('on'); }
+$('#janela').addEventListener('click', e => { if (e.target.id === 'janela') fecharJanela(); });
+
+let novo = {};
+function abrirNovo() {
+  novo = { servicoId: agendaSel === 'unhas' ? 'unhas' : 'corte', hora: null };
+  desenharNovo();
+}
+function desenharNovo() {
+  const s = serv(novo.servicoId);
+  const hs = nysseHorariosDoDia(D, diaSel, s) || [];
+  janela(`<h3>Marcar cliente</h3>
+    <p class="sec">Para quem ligou ou chamou no WhatsApp. ${dataBonita(diaSel)}</p>
+    <label class="campo"><span>Serviço</span><select onchange="novo.servicoId=this.value;novo.hora=null;guardarNovo();desenharNovo()">${D.servicos.map(x => `<option value="${x.id}" ${x.id === s.id ? 'selected' : ''}>${x.nome} (${duracaoTexto(x.dur)})</option>`).join('')}</select></label>
+    ${s.opcoes ? `<label class="campo"><span>Opção</span><select id="nOpc">${s.opcoes.map(o => `<option>${o.nome}</option>`).join('')}</select></label>` : ''}
+    <span style="display:block;font-weight:700;font-size:15px;margin-bottom:6px;color:var(--suave)">Horário</span>
+    ${hs.length ? `<div class="horas-esc">${hs.map(x => `<button ${x.livre ? '' : 'disabled'} class="${novo.hora === x.hora ? 'sel' : ''}" onclick="guardarNovo();novo.hora='${x.hora}';desenharNovo()">${x.hora}</button>`).join('')}</div>` : `<div class="vazio" style="margin-bottom:12px">Sem horários neste dia.</div>`}
+    <label class="campo"><span>Nome da cliente</span><input id="nNome" value="${novo.nome || ''}"></label>
+    <label class="campo"><span>WhatsApp</span><input id="nWhats" inputmode="tel" value="${novo.whats || ''}"></label>
+    <button class="b b-verde" style="width:100%;margin-bottom:10px" onclick="salvarNovo()">Marcar (já confirmado)</button>
+    <button class="b b-linha" style="width:100%" onclick="fecharJanela()">Voltar</button>`);
+}
+function guardarNovo() { if ($('#nNome')) { novo.nome = $('#nNome').value; novo.whats = $('#nWhats').value; } }
+function salvarNovo() {
+  guardarNovo();
+  if (!novo.hora) { alert('Escolha o horário.'); return; }
+  if (!novo.nome || !novo.nome.trim()) { $('#nNome').focus(); return; }
+  const s = serv(novo.servicoId);
+  D = nysseCarregar();
+  D.agendamentos.push({ id: 'a' + Date.now(), codigo: nysseCodigo(), servicoId: s.id, opcao: $('#nOpc') ? $('#nOpc').value : '', data: diaSel, hora: novo.hora, dur: s.dur, agenda: s.agenda,
+    nome: novo.nome.trim(), whats: (novo.whats || '').trim(), obs: 'Marcado pela Nysse', sinal: s.sinal, status: 'confirmado', criadoEm: Date.now() });
+  agendaSel = s.agenda; gravar(); fecharJanela(); avisar('✓ Cliente marcada');
+}
+
+function abrirBloqueio() {
+  janela(`<h3>Fechar horário</h3>
+    <p class="sec">${dataBonita(diaSel)} · o site mostra como “Reservado”.</p>
+    <label class="campo"><span>Fechar para</span><select id="bAg"><option value="todas">Cabelo e unhas</option><option value="cabelo">Só cabelo</option><option value="unhas">Só unhas</option></select></label>
+    <label class="campo" style="display:flex;gap:10px;align-items:center"><input type="checkbox" id="bDia" onchange="document.getElementById('bHoras').style.display=this.checked?'none':'grid'"><span style="margin:0">Fechar o dia todo</span></label>
+    <div class="grade2" id="bHoras"><label class="campo"><span>Das</span><input type="time" id="bIni" value="13:00"></label><label class="campo"><span>Até</span><input type="time" id="bFim" value="15:00"></label></div>
+    <label class="campo"><span>Motivo (só você vê)</span><input id="bMot" placeholder="Ex.: médico, curso, feriado"></label>
+    <button class="b b-escuro" style="width:100%;margin-bottom:10px" onclick="salvarBloqueio()">Fechar horário</button>
+    <button class="b b-linha" style="width:100%" onclick="fecharJanela()">Voltar</button>`);
+}
+function salvarBloqueio() {
+  D = nysseCarregar();
+  const dia = $('#bDia').checked;
+  D.bloqueios.push({ id: 'b' + Date.now(), data: diaSel, inicio: dia ? null : $('#bIni').value, fim: dia ? null : $('#bFim').value, agenda: $('#bAg').value, motivo: $('#bMot').value.trim() });
+  gravar(); fecharJanela(); avisar('🔒 Horário fechado');
+}
+function tirarBloqueio(id) { D = nysseCarregar(); D.bloqueios = D.bloqueios.filter(b => b.id !== id); gravar(); avisar('Horário aberto de novo'); }
+
+/* ---------- ajustes ---------- */
+function montarAjustes() {
+  const c = D.config;
+  $('#cPix').value = c.pix; $('#cPixNome').value = c.pixNome; $('#cWhats').value = c.whatsapp;
+  $('#cAlm1').value = c.almoco ? c.almoco[0] : ''; $('#cAlm2').value = c.almoco ? c.almoco[1] : '';
+  $('#ajServicos').innerHTML = D.servicos.map(s => `
+    <div class="serv-aj"><b>${s.icone} ${s.nome}</b>
+      <label class="campo"><span>Preço que aparece no site</span><input data-s="${s.id}" data-k="preco" value="${s.preco}"></label>
+      <div class="grade2">
+        <label class="campo"><span>Sinal (R$)</span><input type="number" min="0" data-s="${s.id}" data-k="sinal" value="${s.sinal}"></label>
+        <label class="campo"><span>Duração</span><select data-s="${s.id}" data-k="dur">${[30, 60, 90, 120, 150, 180, 240].map(m => `<option value="${m}" ${m === s.dur ? 'selected' : ''}>${duracaoTexto(m)}</option>`).join('')}</select></label>
+      </div></div>`).join('');
+  $('#ajHorarios').innerHTML = [2, 3, 4, 5, 6, 0, 1].map(d => {
+    const h = c.horarios[d];
+    return `<div class="dia-aj"><label><input type="checkbox" data-d="${d}" ${h ? 'checked' : ''}>${DIAS_CURTO[d]}</label>
+      <input type="time" data-d1="${d}" value="${h ? h[0] : '09:00'}"><input type="time" data-d2="${d}" value="${h ? h[1] : '18:00'}"></div>`;
+  }).join('');
+  $('#ajProdutos').innerHTML = D.produtos.map(p => `
+    <div class="prod-aj"><span>${p.nome}</span><input type="number" step="0.01" data-p="${p.id}" value="${p.preco}"><input type="checkbox" data-pa="${p.id}" ${p.ativo ? 'checked' : ''}></div>`).join('');
+}
+function salvarAjustes() {
+  D = nysseCarregar();
+  const c = D.config;
+  c.pix = $('#cPix').value.trim(); c.pixNome = $('#cPixNome').value.trim(); c.whatsapp = $('#cWhats').value.replace(/\D/g, '');
+  c.almoco = $('#cAlm1').value && $('#cAlm2').value ? [$('#cAlm1').value, $('#cAlm2').value] : null;
+  document.querySelectorAll('[data-s]').forEach(el => {
+    const s = serv(el.dataset.s); const k = el.dataset.k;
+    s[k] = k === 'preco' ? el.value : Number(el.value);
+  });
+  // atualiza a duração dos agendamentos futuros? Não — só vale para os novos.
+  document.querySelectorAll('[data-d]').forEach(el => {
+    const d = el.dataset.d;
+    c.horarios[d] = el.checked ? [document.querySelector(`[data-d1="${d}"]`).value, document.querySelector(`[data-d2="${d}"]`).value] : null;
+  });
+  D.produtos.forEach(p => {
+    p.preco = Number(document.querySelector(`[data-p="${p.id}"]`).value);
+    p.ativo = document.querySelector(`[data-pa="${p.id}"]`).checked;
+  });
+  gravar(); avisar('✓ Ajustes salvos');
+}
+
+function tudo() { montarPedidos(); montarAgenda(); }
+
+// pedidos novos aparecem sozinhos (outra aba / outro aparelho na versão online)
+window.addEventListener('storage', e => { if (e.key === NYSSE_CHAVE) { D = nysseCarregar(); tudo(); } });
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { D = nysseCarregar(); tudo(); } });
+</script>
+</body>
+</html>

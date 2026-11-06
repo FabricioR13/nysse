@@ -1,0 +1,12 @@
+{
+  "name": "Nysse Painel",
+  "short_name": "Nysse Painel",
+  "start_url": "painel.html",
+  "display": "fullscreen",
+  "background_color": "#FAF6EF",
+  "theme_color": "#1E1A16",
+  "icons": [
+    { "src": "img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
