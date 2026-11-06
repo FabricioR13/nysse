@@ -146,7 +146,7 @@ footer a{color:var(--ouro-escuro);font-weight:700;text-decoration:none}
 /* agendamento (tela por cima) */
 .tela{position:fixed;inset:0;z-index:60;background:rgba(30,26,22,.55);display:none;align-items:flex-end;justify-content:center}
 .tela.on{display:flex}
-.folha{background:var(--creme);width:100%;max-width:560px;max-height:94vh;border-radius:26px 26px 0 0;overflow-y:auto;animation:sobe .28s ease}
+.folha{background:var(--creme);width:100%;max-width:560px;max-height:94vh;max-height:94dvh;border-radius:26px 26px 0 0;overflow-y:auto;overscroll-behavior:contain;animation:sobe .28s ease}
 @media(min-width:760px){.tela{align-items:center}.folha{border-radius:26px}}
 @keyframes sobe{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
 .folha-topo{position:relative;height:150px;background:var(--areia)}
@@ -155,7 +155,12 @@ footer a{color:var(--ouro-escuro);font-weight:700;text-decoration:none}
 .folha-topo .nome{position:absolute;left:18px;bottom:12px;color:#fff}
 .folha-topo .nome h3{font-family:'Cormorant Garamond',serif;font-size:32px;line-height:1}
 .folha-topo .nome small{font-size:14px;opacity:.9}
-.fechar{position:absolute;right:12px;top:12px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.95);font-size:22px;color:var(--preto);display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.barra-voltar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;background:rgba(250,246,239,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--areia);border-radius:26px 26px 0 0}
+.barra-voltar .voltar{display:flex;align-items:center;gap:6px;min-height:46px;padding:0 16px 0 12px;border-radius:999px;background:#fff;border:2px solid var(--areia);font-weight:800;font-size:16px;color:var(--preto)}
+.barra-voltar .voltar b{font-size:22px;line-height:1;margin-top:-2px}
+.barra-voltar .x{width:46px;height:46px;border-radius:50%;background:var(--preto);color:#fff;font-size:20px;display:grid;place-items:center;flex:none}
+.etapa{scroll-margin-top:76px}
+.desistir{display:block;width:100%;margin-top:14px;min-height:50px;border-radius:14px;color:var(--suave);font-weight:700;font-size:15.5px;text-decoration:underline}
 .folha-corpo{padding:18px}
 .etapa{margin-bottom:22px}
 .etapa h4{display:flex;align-items:center;gap:10px;font-size:18px;color:var(--preto);margin-bottom:10px}
@@ -398,25 +403,32 @@ function abrirAgenda(id) {
   D = nysseCarregar();
   const s = D.servicos.find(x => x.id === id);
   ag = { s, opcao: s.opcoes ? null : '', dia: null, hora: null };
-  history.replaceState(null, '', '#agendar/' + id);
+  if (!$('#tela').classList.contains('on')) history.pushState({ agenda: 1 }, '', '#agendar/' + id);
   $('#tela').classList.add('on');
   document.body.style.overflow = 'hidden';
   desenharFolha();
 }
-function fecharAgenda() {
+function esconderAgenda() {
   $('#tela').classList.remove('on');
   document.body.style.overflow = '';
-  history.replaceState(null, '', location.pathname);
 }
+function fecharAgenda() {
+  esconderAgenda();
+  if (history.state && history.state.agenda) history.back();      // volta sem sair do site
+  else history.replaceState(null, '', location.pathname);
+}
+// botão "voltar" do celular fecha o agendamento em vez de sair do site
+window.addEventListener('popstate', () => { if ($('#tela').classList.contains('on')) esconderAgenda(); });
+const barraVoltar = `<div class="barra-voltar"><button class="voltar" onclick="fecharAgenda()"><b>‹</b> Voltar</button><button class="x" onclick="fecharAgenda()" aria-label="Fechar">✕</button></div>`;
 $('#tela').addEventListener('click', e => { if (e.target.id === 'tela') fecharAgenda(); });
 
 function desenharFolha() {
   const s = ag.s;
   const capa = s.fotos.length ? `<img src="${foto(s.fotos[0])}" alt="">` : `<div style="height:100%;display:grid;place-items:center;font-size:70px;background:radial-gradient(circle at 30% 25%,#fff7e8,var(--areia))">${s.icone}</div>`;
   let n = 1;
-  let h = `<div class="folha-topo">${capa}<div class="grad"></div>
+  let h = barraVoltar + `<div class="folha-topo">${capa}<div class="grad"></div>
       <div class="nome"><h3>${s.nome}</h3><small>⏱ ${duracaoTexto(s.dur)} · ${s.preco}</small></div>
-      <button class="fechar" onclick="fecharAgenda()" aria-label="Fechar">✕</button></div>
+</div>
     <div class="folha-corpo">`;
 
   if (s.opcoes) {
@@ -460,7 +472,7 @@ function desenharFolha() {
       <button class="btn btn-ouro btn-largo" onclick="reservar()">Reservar este horário</button>
       <p style="text-align:center;font-size:13.5px;color:var(--suave);margin-top:10px">Você só paga o sinal depois que a Nysse confirmar.</p>`;
   }
-  h += `</div></div>`;
+  h += `</div><button class="desistir" onclick="fecharAgenda()">Desistir e voltar para o início</button></div>`;
   $('#folha').innerHTML = h;
 }
 function guardarCampos() {
@@ -491,7 +503,7 @@ function reservar() {
   };
   D.agendamentos.push(a); nysseSalvar(D);
   const link = linkWhats(D.config.whatsapp, msgPedidoParaNysse(D, a));
-  $('#folha').innerHTML = `
+  $('#folha').innerHTML = barraVoltar + `
     <div class="sucesso">
       <div class="ok">✓</div>
       <h3>Horário pré-reservado!</h3>
